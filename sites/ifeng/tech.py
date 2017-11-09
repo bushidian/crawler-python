@@ -14,7 +14,7 @@ random.seed(datetime.datetime.now)
 allContentLinks = set()
 
 # 爬取入口
-def crawler():
+def crawler(config):
     print('凤凰科技频道抓取-开始')
 
     getAllContentLinks('http://tech.ifeng.com')
@@ -25,6 +25,8 @@ def crawler():
             print(page.title)
 
     print('凤凰科技频道抓取-结束')
+    
+    print(config.storeApi)
 
 # 获取所有内容链接
 def getAllContentLinks(siteUrl):
