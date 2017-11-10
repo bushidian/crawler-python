@@ -7,6 +7,7 @@ import datetime
 import random
 
 import utils.extention as ext
+import services.store as store
 from utils.extention import splitAddress
 from core.models.pageContent import pageContent
 
@@ -14,6 +15,8 @@ random.seed(datetime.datetime.now)
 allContentLinks = set()
 
 # 爬取入口
+
+
 def crawler(config):
     print('凤凰科技频道抓取-开始')
 
@@ -23,12 +26,15 @@ def crawler(config):
         page = getPageContent(url)
         if page is not None:
             print(page.title)
+            store.save(config, page)
 
     print('凤凰科技频道抓取-结束')
-    
+
     print(config.storeApi)
 
 # 获取所有内容链接
+
+
 def getAllContentLinks(siteUrl):
     html = urlopen(siteUrl)
     bsObj = BeautifulSoup(html.read(), 'html5lib')
@@ -43,6 +49,8 @@ def getAllContentLinks(siteUrl):
                 allContentLinks.add(link)
 
 # 获取抓取内容信息
+
+
 def getPageContent(url):
 
     html = None
@@ -57,6 +65,8 @@ def getPageContent(url):
     return parseHtml(url, html)
 
 # 解析内容页面Html
+
+
 def parseHtml(url, html):
 
     if html is None:
@@ -65,23 +75,26 @@ def parseHtml(url, html):
     if html.msg != 'OK':
         print('链接:' + url + ' 访问错误:' + html.msg)
         return
-        
+
     bsObj = BeautifulSoup(html, 'html5lib')
-    
+
     title = bsObj.title.get_text()
-    content = bsObj.find('div', { 'id': 'main_content' })
-    author = bsObj.find('span', { 'itemprop': 'publisher' })
-    
+    content = bsObj.find('div', {'id': 'main_content'})
+    author = bsObj.find('span', {'itemprop': 'publisher'})
+    cover = ''
+
     if content is None:
         print('链接:' + url + ' 内容为空')
         return
     else:
-       content = str(content)
-    
+        img = content.find('img')
+        if img is not None:
+            cover = img['src']
+        content = str(content)
+
     if author is not None:
         author = author.get_text()
-    
-    page = pageContent(title, content, author)
-    
+
+    page = pageContent(title, content, author, '新闻', cover)
+
     return page
-            
