@@ -1,4 +1,5 @@
 import sites.ifeng.tech as tech
+import sites.leet.shh as shh
 from core.models.config import config
 import utils.http as http
 
@@ -11,6 +12,7 @@ def main():
     setting = loadingConfig()
     
     tech.crawler(setting)
+    shh.crawler(setting)
 
     print('程序关闭')
 

@@ -3,21 +3,19 @@ from urllib.parse import urlparse
 from urllib.error import HTTPError
 from bs4 import BeautifulSoup
 import re
-import datetime
-import random
 
 import utils.extention as ext
 import services.store as store
 from utils.extention import splitAddress
 from core.models.pageContent import pageContent
 
-random.seed(datetime.datetime.now)
 allContentLinks = set()
 
 # 爬取入口
 
 
 def crawler(config):
+
     print('凤凰科技频道抓取-开始')
 
     getAllContentLinks('http://tech.ifeng.com')
@@ -29,8 +27,6 @@ def crawler(config):
             store.save(config, page)
 
     print('凤凰科技频道抓取-结束')
-
-    print(config.storeApi)
 
 # 获取所有内容链接
 
