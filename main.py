@@ -9,15 +9,16 @@ def main():
 
     print('程序启动')
 
-    setting = loadingConfig()
+    setting = loadConfig()
     
     tech.crawler(setting)
-    shh.crawler(setting)
+    
+    #shh.crawler(setting)
 
     print('程序关闭')
 
 
-def loadingConfig():
+def loadConfig():
 
     with open('config.json') as file:
         data = json.load(file)
