@@ -1,5 +1,6 @@
 import sites.ifeng.tech as tech
 import sites.leet.shh as shh
+import sites.mt.esf as esf
 from core.models.config import config
 import utils.http as http
 
@@ -12,6 +13,8 @@ def main():
     setting = loadConfig()
     
     tech.crawler(setting)
+    
+    esf.crawler(setting)
     
     #shh.crawler(setting)
 
